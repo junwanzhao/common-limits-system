@@ -8,7 +8,10 @@
         <Header></Header>
       </el-header>
       <el-main class="main">
-        <Tabs></Tabs>
+        <div class="tabs">
+          <Tabs class="tabs-content"></Tabs>
+          <ColseTabs></ColseTabs>
+        </div>
         <router-view></router-view>
       </el-main>
     </el-container>
@@ -18,6 +21,7 @@
 import Header from '@/layout/header/Header.vue'
 import MenuBar from '@/layout/menu/MenuBar.vue'
 import Tabs from '@/layout/tabs/Tabs.vue'
+import ColseTabs from '@/layout/tabs/ColseTabs.vue'
 </script>
 <style lang="scss" scoped>
 .mycontainer {
@@ -31,7 +35,23 @@ import Tabs from '@/layout/tabs/Tabs.vue'
     align-items: center;
   }
   .main {
-    background-color: #ffffff;
+    padding: 0px;
+    .tabs {
+      display: flex;
+      justify-content: space-between;
+      flex-grow: 1;
+      border-bottom: 1px solid #e4e7ed;
+    }
+    padding-right: 75px;
+    .el-tabs {
+      width: 100%;
+      height: 33px;
+    }
+    .tabs-content {
+      padding-top: 8px;
+      padding-left: 10px;
+      padding-right: 10px;
+    }
   }
 }
 </style>
