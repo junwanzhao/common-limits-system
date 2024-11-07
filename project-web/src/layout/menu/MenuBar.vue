@@ -5,14 +5,32 @@
     class="el-menu-vertical-demo"
     unique-opened
     background-color="#304156"
+    @open="handleOpen"
+    @close="handleClose"
+    router
   >
     <menu-item :menuList="menuList"></menu-item>
   </el-menu>
 </template>
 <script setup lang="ts">
-import { reactive } from 'vue'
+import { reactive, computed } from 'vue'
 import MenuItem from '@/layout/menu/MenuItem.vue'
 import MenuLogo from './MenuLogo.vue'
+
+import { useRoute } from 'vue-router'
+const route = useRoute()
+//获取激活的菜单
+const activeIndex = computed(() => {
+  const { path } = route
+  return path
+})
+const handleOpen = (key: string, keyPath: string[]) => {
+  console.log(key, keyPath)
+}
+const handleClose = (key: string, keyPath: string[]) => {
+  console.log(key, keyPath)
+}
+
 let menuList = reactive([
   {
     path: '/system',
@@ -71,7 +89,7 @@ let menuList = reactive([
         component: '/goods/Category',
         name: 'category',
         meta: {
-          title: '物资类型',
+          title: '商品类型',
           icon: 'UserFilled',
           roles: ['sys:category']
         }

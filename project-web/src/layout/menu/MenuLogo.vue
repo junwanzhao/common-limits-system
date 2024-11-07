@@ -7,6 +7,7 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import MenuLogo from '@/assets/MenuLogo.png'
+
 const title = ref('通⽤后台权限系统')
 </script>
 <style scoped lang="scss">

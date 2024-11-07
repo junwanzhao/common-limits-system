@@ -37,7 +37,8 @@ export default [
     rules: {
       'no-unused-vars': 'warn',
       '@typescript-eslint/no-unused-vars': 'warn', // 变量未使⽤规则为警告
-      'vue/multi-word-component-names': 'off' // 关闭组件名多个单词命名
+      'vue/multi-word-component-names': 'off', // 关闭组件名多个单词命名
+      '@typescript-eslint/no-explicit-any': 'warn'
     }
   },
   prettierRecommended // 覆盖掉eslint的规范
