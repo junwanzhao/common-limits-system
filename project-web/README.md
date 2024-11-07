@@ -1,5 +1,17 @@
-# Vue 3 + TypeScript + Vite
+# 通用权限关系系统前端项目
 
-This template should help get you started developing with Vue 3 and TypeScript in Vite. The template uses Vue 3 `<script setup>` SFCs, check out the [script setup docs](https://v3.vuejs.org/api/sfc-script-setup.html#sfc-script-setup) to learn more.
-
-Learn more about the recommended Project Setup and IDE Support in the [Vue Docs TypeScript Guide](https://vuejs.org/guide/typescript/overview.html#project-setup).
+- 安装 element-plus
+- 安装 pinia
+- 菜单收缩制作
+- 菜单logo制作
+- 弹框组件封装
+- 关闭选项卡功能实现
+- 路由安装
+- 路由配置与⻚⾯配置
+- ⾯包屑导航制作
+- 选项卡关闭标签制作
+- 引⼊axios
+- 主界⾯布局
+- 左侧导航菜单制作
+- pinia 持久化操作
+- tabs 选项卡制作
