@@ -17,7 +17,11 @@ const pinia = createPinia()
 //使⽤持久化插件
 pinia.use(piniaPersist)
 
+import myConfirm from './utils/myConfirm'
+
 const app = createApp(App)
+//全局挂载
+app.config.globalProperties.$myConfirm = myConfirm
 app
   .use(router)
   .use(ElementPlus, {

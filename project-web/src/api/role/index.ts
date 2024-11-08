@@ -12,3 +12,8 @@ export const getListApi = (parm: RoleListParm) => {
 export const editApi = (parm: SysRole) => {
   return http.put('/api/role', parm)
 }
+
+//删除
+export const deleteApi = (roleId: string) => {
+  return http.delete(`/api/role/${roleId}`)
+}
