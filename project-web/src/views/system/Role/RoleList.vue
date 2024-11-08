@@ -16,6 +16,42 @@
         <el-button icon="Plus" type="primary" @click="addBtn">新增</el-button>
       </el-form-item>
     </el-form>
+
+    <!-- 表格数据 -->
+    <el-table :height="tableHeight" :data="tableList" border stripe>
+      <el-table-column prop="roleName" label="⻆⾊名称"></el-table-column>
+      <el-table-column prop="remark" label="⻆⾊备注"></el-table-column>
+      <el-table-column label="操作" width="220" align="center">
+        <template #default="scope">
+          <el-button
+            type="primary"
+            icon="Edit"
+            size="default"
+            @click="editBtn(scope.row)"
+            >编辑</el-button
+          >
+          <el-button
+            type="danger"
+            icon="Delete"
+            size="default"
+            @click="deleteBtn(scope.row.roleId)"
+            >删除</el-button
+          >
+        </template>
+      </el-table-column>
+    </el-table>
+    <!-- 分⻚ -->
+    <el-pagination
+      @size-change="sizeChange"
+      @current-change="currentChange"
+      v-model:current-page="searchParm.currentPage"
+      :page-sizes="[10, 20, 40, 80, 100]"
+      :page-size="searchParm.pageSize"
+      layout="total, sizes, prev, pager, next, jumper"
+      :total="searchParm.total"
+      background
+    >
+    </el-pagination>
     <!-- 新增、编辑弹框 -->
     <SysDialog
       :title="dialog.title"
@@ -50,17 +86,20 @@ import { reactive, ref } from 'vue'
 import SysDialog from '@/components/SysDialog.vue'
 import useDialog from '@/hooks/useDialog'
 import { ElMessage, FormInstance } from 'element-plus'
-import { addApi } from '@/api/role'
-
+import { addApi, getListApi } from '@/api/role'
+import { SysRole } from '@/api/role/RoleModel'
 //表单ref属性
 const addRef = ref<FormInstance>()
+
 //弹框属性
 const { dialog, onClose, onShow } = useDialog()
+
 //表单绑定的对象
 const searchParm = reactive({
   currentPage: 1,
   pageSize: 10,
-  roleName: ''
+  roleName: '',
+  total: 0
 })
 //新增按钮点击事件
 const addBtn = () => {
@@ -85,6 +124,7 @@ const rules = reactive({
     }
   ]
 })
+
 //表单提交
 const commit = () => {
   addRef.value?.validate(async (valid) => {
@@ -93,14 +133,60 @@ const commit = () => {
       let res = await addApi(addModel)
       if (res && res.code == 200) {
         ElMessage.success(res.msg)
+        // 刷新数据
+        getList()
         //关闭弹框
         onClose()
       }
     }
   })
 }
+//编辑按钮
+const editBtn = (row: SysRole) => {
+  console.log(row)
+}
+
+//删除按钮
+const deleteBtn = (roleId: string) => {
+  console.log(roleId)
+}
+
+//⻚容量改变时触发
+const sizeChange = (size: number) => {
+  searchParm.pageSize = size
+  getList()
+}
+
+//⻚数改变时触发
+const currentChange = (page: number) => {
+  searchParm.currentPage = page
+  getList()
+}
+//表格⾼度
+const tableHeight = ref(0)
+
+//表格数据
+const tableList = ref([])
+
+//查询列表
+const getList = async () => {
+  let res = await getListApi(searchParm)
+  if (res && res.code == 200) {
+    //设置表格数据
+    console.log(res)
+    tableList.value = res.data.records
+    //设置分⻚总条数
+    searchParm.total = res.data.total
+  }
+}
+
 //搜索
-const searchBtn = () => {}
+const searchBtn = () => {
+  getList()
+}
+
 //重置
-const resetBtn = () => {}
+const resetBtn = () => {
+  getList()
+}
 </script>
