@@ -1,3 +1,27 @@
+## 0.0.0 (2024-11-07)
+
+* docs: 修改README ([0eb2ab5](https://github.com/junwanzhao/common-limits-system/commit/0eb2ab5))
+* feat: 安装 element-plus ([0066cf6](https://github.com/junwanzhao/common-limits-system/commit/0066cf6))
+* feat: 安装 pinia ([c6cbd8b](https://github.com/junwanzhao/common-limits-system/commit/c6cbd8b))
+* feat: 菜单收缩制作 ([31e4326](https://github.com/junwanzhao/common-limits-system/commit/31e4326))
+* feat: 菜单logo制作 ([03d5ef5](https://github.com/junwanzhao/common-limits-system/commit/03d5ef5))
+* feat: 弹框组件封装 ([419937d](https://github.com/junwanzhao/common-limits-system/commit/419937d))
+* feat: 关闭选项卡功能实现 ([372ae03](https://github.com/junwanzhao/common-limits-system/commit/372ae03))
+* feat: 路由安装 ([da2353a](https://github.com/junwanzhao/common-limits-system/commit/da2353a))
+* feat: 路由配置与⻚⾯配置 ([97e3023](https://github.com/junwanzhao/common-limits-system/commit/97e3023))
+* feat: ⾯包屑导航制作 ([05b4624](https://github.com/junwanzhao/common-limits-system/commit/05b4624))
+* feat: 选项卡关闭标签制作 ([24e9b15](https://github.com/junwanzhao/common-limits-system/commit/24e9b15))
+* feat: 引⼊axios ([27a1d69](https://github.com/junwanzhao/common-limits-system/commit/27a1d69))
+* feat: 主界⾯布局 ([0fd1ce1](https://github.com/junwanzhao/common-limits-system/commit/0fd1ce1))
+* feat: 左侧导航菜单制作 ([6322fab](https://github.com/junwanzhao/common-limits-system/commit/6322fab))
+* feat: pinia 持久化操作 ([26289ed](https://github.com/junwanzhao/common-limits-system/commit/26289ed))
+* feat: tabs 选项卡制作 ([f6cc7c5](https://github.com/junwanzhao/common-limits-system/commit/f6cc7c5))
+* chore: 项⽬初始化 ([0b35760](https://github.com/junwanzhao/common-limits-system/commit/0b35760))
+* 创建前端项目 ([be7a015](https://github.com/junwanzhao/common-limits-system/commit/be7a015))
+* 添加README ([a0cf2aa](https://github.com/junwanzhao/common-limits-system/commit/a0cf2aa))
+
+
+
 # 0.0.0 (2024-11-07)
 
 
