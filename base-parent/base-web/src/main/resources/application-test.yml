@@ -34,7 +34,7 @@ springdoc:
   group-configs:
     - group: 'default'
       paths-to-match: '/**'
-  # 扫描 controller 包的路径，⾃⾏修改
+  # 扫描 controller 包的路径
   packages-to-scan: top.hyzhu.web.sys_role.controller,top.hyzhu.web.sys_user.controller,top.hyzhu.web.sys_menu.controller
 
 # knife4j
