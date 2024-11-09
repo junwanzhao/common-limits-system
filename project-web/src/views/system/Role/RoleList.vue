@@ -19,8 +19,8 @@
 
     <!-- 表格数据 -->
     <el-table :height="tableHeight" :data="tableList" border stripe>
-      <el-table-column prop="roleName" label="⻆⾊名称"></el-table-column>
-      <el-table-column prop="remark" label="⻆⾊备注"></el-table-column>
+      <el-table-column prop="roleName" label="角色名称"></el-table-column>
+      <el-table-column prop="remark" label="角色备注"></el-table-column>
       <el-table-column label="操作" width="220" align="center">
         <template #default="scope">
           <el-button
@@ -70,7 +70,7 @@
           :inline="false"
           size="default"
         >
-          <el-form-item prop="roleName" label="⻆⾊名称">
+          <el-form-item prop="roleName" label="角色名称">
             <el-input v-model="addModel.roleName"></el-input>
           </el-form-item>
           <el-form-item prop="remark" label="备注">

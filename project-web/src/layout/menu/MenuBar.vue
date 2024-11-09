@@ -55,7 +55,7 @@ let menuList = reactive([
         component: '/system/User/UserList',
         name: 'userList',
         meta: {
-          title: '⽤户管理',
+          title: '用户管理',
           icon: 'UserFilled',
           roles: ['sys:user']
         }
@@ -65,7 +65,7 @@ let menuList = reactive([
         component: '/system/Role/RoleList',
         name: 'roleList',
         meta: {
-          title: '⻆⾊管理',
+          title: '角色管理',
           icon: 'Wallet',
           roles: ['sys:role']
         }

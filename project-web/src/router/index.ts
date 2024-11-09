@@ -32,7 +32,7 @@ const routes: Array<RouteRecordRaw> = [
         component: () => import('@/views/system/User/UserList.vue'),
         name: 'userList',
         meta: {
-          title: '⽤户管理',
+          title: '用户管理',
           icon: 'UserFilled',
           roles: ['sys:user']
         }
@@ -42,7 +42,7 @@ const routes: Array<RouteRecordRaw> = [
         component: () => import('@/views/system/Role/RoleList.vue'),
         name: 'roleList',
         meta: {
-          title: '⻆⾊管理',
+          title: '角色管理',
           icon: 'Wallet',
           roles: ['sys:role']
         }
