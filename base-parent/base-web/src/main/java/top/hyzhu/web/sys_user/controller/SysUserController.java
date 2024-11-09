@@ -2,6 +2,7 @@ package top.hyzhu.web.sys_user.controller;
 
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import io.swagger.v3.oas.annotations.Operation;
@@ -13,6 +14,12 @@ import top.hyzhu.utils.ResultUtils;
 import top.hyzhu.web.sys_user.entity.SysUser;
 import top.hyzhu.web.sys_user.entity.SysUserPage;
 import top.hyzhu.web.sys_user.service.SysUserService;
+import top.hyzhu.web.sys_user_role.entity.SysUserRole;
+import top.hyzhu.web.sys_user_role.service.SysUserRoleService;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 
 /**
  * @Author: zhy
@@ -24,6 +31,7 @@ import top.hyzhu.web.sys_user.service.SysUserService;
 @AllArgsConstructor
 public class SysUserController {
     private final SysUserService sysUserService;
+    private final SysUserRoleService sysUserRoleService;
 
     //新增
     @PostMapping
@@ -67,5 +75,34 @@ public class SysUserController {
         //查询列表
         IPage<SysUser> list = sysUserService.page(page, query);
         return ResultUtils.success("查询成功", list);
+    }
+
+    //根据⽤户id查询⽤户的⻆⾊
+    @GetMapping("/getRoleList")
+    @Operation(summary = "根据⽤户id查询⽤户的⻆⾊")
+    public ResultVo<?> getRoleList(Long userId) {
+        QueryWrapper<SysUserRole> query = new QueryWrapper<>();
+        query.lambda().eq(SysUserRole::getUserId, userId);
+        List<SysUserRole> list = sysUserRoleService.list(query);
+        //⻆⾊id
+        List<Long> roleList = new ArrayList<>();
+        Optional.ofNullable(list).orElse(new ArrayList<>())
+                .forEach(item -> {
+                    roleList.add(item.getRoleId());
+                });
+        return ResultUtils.success("查询成功!", roleList);
+    }
+
+    //重置密码
+    @PostMapping("/resetPassword")
+    @Operation(summary = "重置密码")
+    public ResultVo<?> resetPassword(@RequestBody SysUser sysUser) {
+        UpdateWrapper<SysUser> query = new UpdateWrapper<>();
+        query.lambda().eq(SysUser::getUserId, sysUser.getUserId())
+                .set(SysUser::getPassword, "666666");
+        if (sysUserService.update(query)) {
+            return ResultUtils.success("密码重置成功!");
+        }
+        return ResultUtils.error("密码重置失败!");
     }
 }

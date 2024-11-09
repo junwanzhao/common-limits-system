@@ -14,4 +14,6 @@ public interface SysUserRoleService {
     void saveBatch(List<SysUserRole> roles);
 
     void remove(QueryWrapper<SysUserRole> query);
+
+    List<SysUserRole> list(QueryWrapper<SysUserRole> query);
 }
