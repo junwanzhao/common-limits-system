@@ -17,3 +17,7 @@ export const editApi = (parm: SysRole) => {
 export const deleteApi = (roleId: string) => {
   return http.delete(`/api/role/${roleId}`)
 }
+//⻆⾊下拉
+export const getSelectApi = () => {
+  return http.get('/api/role/selectList')
+}
