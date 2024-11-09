@@ -12,6 +12,11 @@ import top.hyzhu.utils.ResultUtils;
 import top.hyzhu.web.sys_role.entity.RoleParm;
 import top.hyzhu.web.sys_role.entity.SysRole;
 import top.hyzhu.web.sys_role.service.SysRoleService;
+import top.hyzhu.web.sys_user.entity.SelectItem;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 
 /**
  * @Author: zhy
@@ -66,5 +71,23 @@ public class SysRoleController {
         }
         IPage<SysRole> list = sysRoleService.page(page, query);
         return ResultUtils.success("查询成功", list);
+    }
+
+    //⻆⾊下拉数据
+    @GetMapping("/selectList")
+    @Operation(summary = "⻆⾊下拉数据")
+    public ResultVo<?> selectList() {
+        List<SysRole> list = sysRoleService.list();
+        //返回的值
+        List<SelectItem> selectItems = new ArrayList<>();
+        Optional.ofNullable(list).orElse(new ArrayList<>())
+                .forEach(item -> {
+                    SelectItem vo = new SelectItem();
+                    vo.setCheck(false);
+                    vo.setLabel(item.getRoleName());
+                    vo.setValue(item.getRoleId());
+                    selectItems.add(vo);
+                });
+        return ResultUtils.success("查询成功", selectItems);
     }
 }
