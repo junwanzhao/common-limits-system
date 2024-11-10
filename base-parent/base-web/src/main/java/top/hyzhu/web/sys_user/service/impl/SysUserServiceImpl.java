@@ -27,27 +27,24 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
     @Override
     public void saveUser(SysUser sysUser) {
         int i = this.baseMapper.insert(sysUser);
+        //新增⽤户成功后，设置⽤户的⻆⾊
         if (i > 0) {
-            String[] split = sysUser.getRoleId().replace("，", ",").split(",");
-            List<SysUserRole> roles = new ArrayList<>();
-            for (String s : split) {
-                SysUserRole userRole = new SysUserRole();
-                userRole.setUserId(sysUser.getUserId());
-                try {
+            //把前端逗号分隔的字符串转为数组
+            String[] split = sysUser.getRoleId().split(",");
+            if (split.length > 0) {
+                List<SysUserRole> roles = new ArrayList<>();
+                for (String s : split) {
+                    SysUserRole userRole = new SysUserRole();
+                    userRole.setUserId(sysUser.getUserId());
                     userRole.setRoleId(Long.parseLong(s));
-                } catch (NumberFormatException e) {
-                    throw new IllegalArgumentException("无效的角色ID格式：" + s);
+                    roles.add(userRole);
                 }
-                roles.add(userRole);
-            }
-            if (!roles.isEmpty()) {
+                //保存到⽤户⻆⾊表
                 sysUserRoleService.saveBatch(roles);
-                System.out.println("角色信息已成功保存到 sys_user_role 表：" + roles);
-            } else {
-                System.out.println("未找到有效的角色信息，未执行保存。");
             }
         }
     }
+
     //编辑⽤户信息
     @Transactional
     @Override

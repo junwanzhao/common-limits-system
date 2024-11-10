@@ -1,6 +1,6 @@
 package top.hyzhu.web.sys_user_role.service;
 
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.extension.service.IService;
 import top.hyzhu.web.sys_user_role.entity.SysUserRole;
 
 import java.util.List;
@@ -10,10 +10,4 @@ import java.util.List;
  * @Description: SysUserRoleService
  * @Date: 2024-11-09 20:16
  **/
-public interface SysUserRoleService {
-    void saveBatch(List<SysUserRole> roles);
-
-    void remove(QueryWrapper<SysUserRole> query);
-
-    List<SysUserRole> list(QueryWrapper<SysUserRole> query);
-}
+public interface SysUserRoleService extends IService<SysUserRole> { }
