@@ -8,7 +8,8 @@ import { ElMessage } from 'element-plus'
 //axios请求配置
 const config = {
   baseURL: 'http://localhost:8089',
-  timeout: 10000
+  timeout: 10000,
+  withCredentials: true // 允许跨域请求时发送 cookies
 }
 //定义返回值类型
 export interface Result<T = any> {
