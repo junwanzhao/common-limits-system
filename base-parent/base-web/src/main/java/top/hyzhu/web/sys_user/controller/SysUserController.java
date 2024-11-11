@@ -5,7 +5,6 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.fasterxml.jackson.dataformat.yaml.util.StringQuotingChecker;
 import com.google.code.kaptcha.impl.DefaultKaptcha;
 import io.swagger.v3.oas.annotations.Operation;
 import jakarta.servlet.http.HttpServletRequest;
@@ -17,6 +16,8 @@ import org.apache.tomcat.util.http.fileupload.ByteArrayOutputStream;
 import org.springframework.web.bind.annotation.*;
 import top.hyzhu.result.ResultVo;
 import top.hyzhu.utils.ResultUtils;
+import top.hyzhu.web.sys_menu.entity.AssignTreeParm;
+import top.hyzhu.web.sys_menu.entity.AssignTreeVo;
 import top.hyzhu.web.sys_user.entity.LoginParm;
 import top.hyzhu.web.sys_user.entity.LoginVo;
 import top.hyzhu.web.sys_user.entity.SysUser;
@@ -175,13 +176,21 @@ public class SysUserController {
                 .eq(SysUser::getPassword, parm.getPassword());
         SysUser one = sysUserService.getOne(query);
         if (one == null) {
-            return ResultUtils.error("⽤户名或密密码不正确!");
+            return ResultUtils.error("⽤户名或密码不正确!");
         }
         //返回⽤户信息和token
         LoginVo vo = new LoginVo();
         vo.setUserId(one.getUserId());
         vo.setNickName(one.getNickName());
         return ResultUtils.success("登录成功", vo);
+    }
+
+    //查询菜单树
+    @PostMapping("/tree")
+    @Operation(summary = "查询菜单树")
+    public ResultVo<?> getAssignTree(@RequestBody AssignTreeParm parm) {
+        AssignTreeVo assignTree = sysUserService.getAssignTree(parm);
+        return ResultUtils.success("查询成功", assignTree);
     }
 }
 
