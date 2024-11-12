@@ -12,6 +12,8 @@ import top.hyzhu.utils.ResultUtils;
 import top.hyzhu.web.sys_role.entity.RoleParm;
 import top.hyzhu.web.sys_role.entity.SysRole;
 import top.hyzhu.web.sys_role.service.SysRoleService;
+import top.hyzhu.web.sys_role_menu.entity.SaveMenuParm;
+import top.hyzhu.web.sys_role_menu.service.SysRoleMenuService;
 import top.hyzhu.web.sys_user.entity.SelectItem;
 
 import java.util.ArrayList;
@@ -28,6 +30,7 @@ import java.util.Optional;
 @AllArgsConstructor
 public class SysRoleController {
     private final SysRoleService sysRoleService;
+    private final SysRoleMenuService sysRoleMenuService;
 
     //新增
     @PostMapping
@@ -89,5 +92,13 @@ public class SysRoleController {
                     selectItems.add(vo);
                 });
         return ResultUtils.success("查询成功", selectItems);
+    }
+
+    //保存角色菜单
+    @PostMapping("/saveRoleMenu")
+    @Operation(summary = "保存角色菜单")
+    public ResultVo<?> saveRoleMenu(@RequestBody SaveMenuParm parm) {
+        sysRoleMenuService.saveRoleMenu(parm);
+        return ResultUtils.success("分配成功");
     }
 }

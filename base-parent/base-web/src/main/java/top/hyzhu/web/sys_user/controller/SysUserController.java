@@ -14,14 +14,14 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.tomcat.util.codec.binary.Base64;
 import org.apache.tomcat.util.http.fileupload.ByteArrayOutputStream;
 import org.springframework.web.bind.annotation.*;
+import top.hyzhu.jwt.JwtUtils;
 import top.hyzhu.result.ResultVo;
 import top.hyzhu.utils.ResultUtils;
 import top.hyzhu.web.sys_menu.entity.AssignTreeParm;
 import top.hyzhu.web.sys_menu.entity.AssignTreeVo;
-import top.hyzhu.web.sys_user.entity.LoginParm;
-import top.hyzhu.web.sys_user.entity.LoginVo;
-import top.hyzhu.web.sys_user.entity.SysUser;
-import top.hyzhu.web.sys_user.entity.SysUserPage;
+import top.hyzhu.web.sys_menu.entity.SysMenu;
+import top.hyzhu.web.sys_menu.service.SysMenuService;
+import top.hyzhu.web.sys_user.entity.*;
 import top.hyzhu.web.sys_user.service.SysUserService;
 import top.hyzhu.web.sys_user_role.entity.SysUserRole;
 import top.hyzhu.web.sys_user_role.service.SysUserRoleService;
@@ -29,9 +29,7 @@ import top.hyzhu.web.sys_user_role.service.SysUserRoleService;
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 /**
  * @Author: zhy
@@ -45,6 +43,8 @@ public class SysUserController {
     private final SysUserService sysUserService;
     private final SysUserRoleService sysUserRoleService;
     private final DefaultKaptcha defaultKaptcha;
+    private final JwtUtils jwtUtils;
+    private final SysMenuService sysMenuService;
 
     //新增
     @PostMapping
@@ -176,12 +176,17 @@ public class SysUserController {
                 .eq(SysUser::getPassword, parm.getPassword());
         SysUser one = sysUserService.getOne(query);
         if (one == null) {
-            return ResultUtils.error("⽤户名或密码不正确!");
+            return ResultUtils.error("⽤户名或密密码不正确!");
         }
         //返回⽤户信息和token
         LoginVo vo = new LoginVo();
         vo.setUserId(one.getUserId());
         vo.setNickName(one.getNickName());
+        //⽣成token
+        Map<String, String> map = new HashMap<>();
+        map.put("userId", Long.toString(one.getUserId()));
+        String token = jwtUtils.generateToken(map);
+        vo.setToken(token);
         return ResultUtils.success("登录成功", vo);
     }
 
@@ -191,6 +196,52 @@ public class SysUserController {
     public ResultVo<?> getAssignTree(@RequestBody AssignTreeParm parm) {
         AssignTreeVo assignTree = sysUserService.getAssignTree(parm);
         return ResultUtils.success("查询成功", assignTree);
+    }
+
+    //修改密码
+    @PostMapping("/updatePassword")
+    @Operation(summary = "修改密码")
+    public ResultVo<?> updatePassword(@RequestBody UpdatePasswordParm parm) {
+        SysUser user = sysUserService.getById(parm.getUserId());
+        if (!parm.getOldPassword().equals(user.getPassword())) {
+            return ResultUtils.error("原密码不正确!");
+        }
+        //更新条件
+        UpdateWrapper<SysUser> query = new UpdateWrapper<>();
+        query.lambda().set(SysUser::getPassword, parm.getPassword())
+                .eq(SysUser::getUserId, parm.getUserId());
+        if (sysUserService.update(query)) {
+            return ResultUtils.success("密码修改成功!");
+        }
+        return ResultUtils.error("密码修改失败!");
+    }
+
+    //获取⽤户信息
+    @GetMapping("/getInfo")
+    @Operation(summary = "获取⽤户信息")
+    public ResultVo<?> getInfo(Long userId) {
+        //根据id查询⽤户信息
+        SysUser user = sysUserService.getById(userId);
+        List<SysMenu> menuList;
+        //判断是否是超级管理员
+        if (StringUtils.isNotEmpty(user.getIsAdmin()) && "1".equals(user.getIsAdmin())) {
+            //超级管理员,直接全部查询
+            menuList = sysMenuService.list();
+        } else {
+            menuList = sysMenuService.getMenuByUserId(user.getUserId());
+        }
+        //获取菜单表的code字段
+        List<String> collect = Optional.ofNullable(menuList).orElse(new ArrayList<>())
+                .stream()
+                .filter(item -> item != null && StringUtils.isNotEmpty(item.getCode()))
+                .map(SysMenu::getCode)
+                .toList();
+        //设置返回值
+        UserInfo userInfo = new UserInfo();
+        userInfo.setName(user.getNickName());
+        userInfo.setUserId(user.getUserId());
+        userInfo.setPermissions(collect.toArray());
+        return ResultUtils.success("查询成功", userInfo);
     }
 }
 
