@@ -12,6 +12,7 @@ import * as ElementPlusIconsVue from '@element-plus/icons-vue'
 //引⼊Pinia构造函数
 import { createPinia } from 'pinia'
 import piniaPersist from 'pinia-plugin-persist'
+import * as echarts from 'echarts'
 // 实例化 Pinia
 const pinia = createPinia()
 //使⽤持久化插件
@@ -34,3 +35,5 @@ app
 for (const [key, component] of Object.entries(ElementPlusIconsVue)) {
   app.component(key, component)
 }
+// 注意在app创建之后
+app.config.globalProperties.$echarts = echarts
